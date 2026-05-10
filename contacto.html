@@ -7,5 +7,53 @@
 </head>
 <body>
     <h1>PAGINA DE CONTACTO</h1>
+    <ul>
+        <li><a href="index.html">INICIO</a></li>
+        <li><a href="contacto.html">CONTACTO</a></li>
+    </ul>
+
+    <h1>TABLAS EN HTML</h1>
+    <hr>
+    <table border="1">
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+        </tr>
+        <tr>
+            <td>Sergio</td>
+            <td>Marquez</td>
+            <td>sergiomarquezmoreno@gmail.com</td>
+        </tr>
+        <tr>
+            <td>Gabriela</td>
+            <td>Garica</td>
+            <td>gaby.garcia@gmail.com</td>
+        </tr>
+    </table>
+
+    <h1>FORMULARIOS EN HTML</h1>
+    <hr>
+    <h2>Formulario para registrar usuarios</h2>
+    <form action="">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre">
+        <br>
+        <label for="email">Email</label>
+        <input type="email" id="email">
+        <br>
+        <label for="password">Password</label>
+        <input type="password" id="password">
+        <br>
+        <label for="comentarios">Comentarios</label>
+        <textarea name="comentarios" id="comentarios"></textarea>
+        <br>
+        <select name="sexo" id="sexo">
+            <option value="hombre">Hombre</option>
+            <option value="mujer">Mujer</option>
+        </select>
+        <br>
+        <input type="submit" value="Enviar">
+    </form>
 </body>
 </html>
