@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { TaskService, Task } from '../services/task.service';
 import { ToastService } from '../services/toast.service';
 import { AiService } from '../services/ai.service';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -39,6 +40,29 @@ import { AiService } from '../services/ai.service';
             <span class="topbar__notif-badge">{{ taskService.pendingCount() }}</span>
           }
         </button>
+
+        <!-- Theme Toggle -->
+        <div class="theme-toggle" title="Cambiar tema">
+          <span class="theme-toggle__icon material-symbols-outlined">
+            {{ themeService.isDark() ? 'dark_mode' : 'light_mode' }}
+          </span>
+          <div
+            class="theme-toggle__track"
+            [class.theme-toggle__track--active]="themeService.isDark()"
+            (click)="themeService.toggle()"
+            role="switch"
+            [attr.aria-checked]="themeService.isDark()"
+            aria-label="Activar modo oscuro"
+          >
+            <div class="theme-toggle__thumb"
+                 [class.theme-toggle__thumb--active]="themeService.isDark()">
+              <span class="material-symbols-outlined">
+                {{ themeService.isDark() ? 'dark_mode' : 'light_mode' }}
+              </span>
+            </div>
+          </div>
+        </div>
+
         <button class="topbar__avatar-btn" aria-label="Perfil">
           <img [src]="avatarUrl" alt="Avatar de usuario">
         </button>
@@ -201,6 +225,7 @@ export class DashboardComponent {
   toastService = inject(ToastService);
   aiService    = inject(AiService);
   platformId   = inject(PLATFORM_ID);
+  themeService = inject(ThemeService);
 
   readonly DEFAULT_AVATAR = 'https://lh3.googleusercontent.com/aida-public/AB6AXuC5wqWkT2nWfws9vifIaCDcGLUIJrft3f6hbKtFkkLpwfF6P3s_3SBfFH4CBtdHwXCYgSXGW7u4h4tw74YrNTZmfaWSpLeN6tO8qtz6qGUWPzWw9-Yqk41j2agksbODVM8vMG4d4HiIarPkhII6cdKu14d4T4eCPQZUZmygS_JJV-lYE1fPsfcHYUR6c5Qptqm61K_OLEYP74zJ5uR44fUwSiUUdn2VaXwimO43pnstGhTb2XYjF7MbBHB0vNASMkVVcA9HYxDZCm6t';
 
