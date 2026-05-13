@@ -1,0 +1,320 @@
+/* =============================================
+   MOMENTUM TAREAS — Global Styles (CSS3 Puro)
+   ============================================= */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+
+/* ─── Design Tokens ─────────────────────────── */
+:root {
+  /* Surface */
+  --color-surface:                    #fff8f6;
+  --color-surface-dim:                #dfd9d7;
+  --color-surface-bright:             #fff8f6;
+  --color-surface-container-lowest:   #ffffff;
+  --color-surface-container-low:      #f9f2f0;
+  --color-surface-container:          #f3eceb;
+  --color-surface-container-high:     #ede7e5;
+  --color-surface-container-highest:  #e7e1df;
+
+  /* On-Surface */
+  --color-on-surface:                 #1d1b1a;
+  --color-on-surface-variant:         #5b403d;
+  --color-inverse-surface:            #32302f;
+  --color-inverse-on-surface:         #f6efee;
+
+  /* Outline */
+  --color-outline:                    #906f6c;
+  --color-outline-variant:            #e4beb9;
+
+  /* Primary */
+  --color-surface-tint:               #bb171c;
+  --color-primary:                    #b7131a;
+  --color-on-primary:                 #ffffff;
+  --color-primary-container:          #db322f;
+  --color-on-primary-container:       #fffbff;
+  --color-inverse-primary:            #ffb4ac;
+  --color-primary-fixed:              #ffdad6;
+  --color-primary-fixed-dim:          #ffb4ac;
+  --color-on-primary-fixed:           #410002;
+  --color-on-primary-fixed-variant:   #93000d;
+
+  /* Secondary */
+  --color-secondary:                  #8f4e00;
+  --color-on-secondary:               #ffffff;
+  --color-secondary-container:        #ff8f06;
+  --color-on-secondary-container:     #623300;
+  --color-secondary-fixed:            #ffdcc2;
+  --color-secondary-fixed-dim:        #ffb77b;
+  --color-on-secondary-fixed:         #2e1500;
+  --color-on-secondary-fixed-variant: #6d3a00;
+
+  /* Tertiary */
+  --color-tertiary:                   #a52a66;
+  --color-on-tertiary:                #ffffff;
+  --color-tertiary-container:         #c5447f;
+  --color-on-tertiary-container:      #fffbff;
+  --color-tertiary-fixed:             #ffd9e4;
+  --color-tertiary-fixed-dim:         #ffb0cc;
+  --color-on-tertiary-fixed:          #3e0020;
+  --color-on-tertiary-fixed-variant:  #890f50;
+
+  /* Error */
+  --color-error:                      #ba1a1a;
+  --color-on-error:                   #ffffff;
+  --color-error-container:            #ffdad6;
+  --color-on-error-container:         #93000a;
+
+  /* Background */
+  --color-background:                 #fff8f6;
+  --color-on-background:              #1d1b1a;
+  --color-surface-variant:            #e7e1df;
+
+  /* Spacing */
+  --spacing-margin-mobile:    1.6rem;
+  --spacing-margin-desktop:   4.8rem;
+  --spacing-container-max:    1200px;
+  --spacing-stack-xs:         0.8rem;
+  --spacing-stack-sm:         1.6rem;
+  --spacing-stack-md:         2.4rem;
+  --spacing-stack-lg:         4.0rem;
+  --spacing-gutter:           2.4rem;
+  --spacing-unit:             0.4rem;
+
+  /* Typography */
+  --font-family:      'Inter', sans-serif;
+  --font-size-base:   1.6rem;
+
+  /* Shadows */
+  --shadow-level-1: 0 4px 12px rgba(183, 19, 26, 0.05);
+  --shadow-level-2: 0 8px 20px rgba(183, 19, 26, 0.10);
+  --shadow-sm:      0 1px 4px rgba(0, 0, 0, 0.08);
+
+  /* Border radius */
+  --radius-sm:  0.4rem;
+  --radius-md:  0.8rem;
+  --radius-lg:  1.2rem;
+  --radius-xl:  1.6rem;
+  --radius-2xl: 2.4rem;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast:   all 0.15s ease;
+  --transition-normal: all 0.2s ease;
+  --transition-slow:   all 0.3s ease;
+}
+
+/* ─── Base Reset ─────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%; /* 1rem = 10px */
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-on-background);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-primary-fixed);
+  color: var(--color-on-primary-fixed);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: var(--font-family);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, select, textarea {
+  font-family: var(--font-family);
+  outline: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ─── Typography Utilities ───────────────────── */
+.text-headline-xl   { font-size: 4.0rem;  line-height: 4.8rem; font-weight: 700; letter-spacing: -0.02em; }
+.text-headline-lg   { font-size: 3.2rem;  line-height: 3.8rem; font-weight: 700; letter-spacing: -0.01em; }
+.text-headline-lg-m { font-size: 2.8rem;  line-height: 3.4rem; font-weight: 700; }
+.text-headline-md   { font-size: 2.4rem;  line-height: 3.0rem; font-weight: 600; }
+.text-headline-sm   { font-size: 2.0rem;  line-height: 2.6rem; font-weight: 600; }
+.text-body-lg       { font-size: 1.8rem;  line-height: 2.8rem; font-weight: 400; }
+.text-body-md       { font-size: 1.6rem;  line-height: 2.4rem; font-weight: 400; }
+.text-body-sm       { font-size: 1.4rem;  line-height: 2.0rem; font-weight: 400; }
+.text-label-md      { font-size: 1.2rem;  line-height: 1.6rem; font-weight: 600; letter-spacing: 0.05em; }
+.text-label-sm      { font-size: 1.0rem;  line-height: 1.4rem; font-weight: 500; }
+
+/* ─── Color Utilities ────────────────────────── */
+.text-primary           { color: var(--color-primary); }
+.text-secondary         { color: var(--color-secondary); }
+.text-on-surface        { color: var(--color-on-surface); }
+.text-on-surface-variant{ color: var(--color-on-surface-variant); }
+.text-on-primary        { color: var(--color-on-primary); }
+.text-on-error          { color: var(--color-on-error); }
+.text-error             { color: var(--color-error); }
+.text-white             { color: #ffffff; }
+
+/* ─── Task Card Accents ──────────────────────── */
+.task-card-accent         { border-left: 4px solid var(--color-secondary-container); }
+.task-card-accent-primary { border-left: 4px solid var(--color-primary); }
+
+/* ─── Shadow Utilities ───────────────────────── */
+.shadow-level-1 { box-shadow: var(--shadow-level-1); }
+.shadow-level-2 { box-shadow: var(--shadow-level-2); }
+
+/* ─── Scrollbar Hide ─────────────────────────── */
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* ─── Animations ─────────────────────────────── */
+@keyframes fadeInSlideRight {
+  from { opacity: 0; transform: translateX(1.6rem); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-slide-right {
+  animation: fadeInSlideRight 0.3s ease forwards;
+}
+
+/* ─── Material Symbols ───────────────────────── */
+.material-symbols-outlined {
+  font-size: 2.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  user-select: none;
+}
+
+/* ─── Active / Focus States ──────────────────── */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ─── Shared TopAppBar (Dashboard + Settings) ── */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1.2rem var(--spacing-margin-mobile);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  transition: var(--transition-normal);
+}
+@media (min-width: 768px) { .topbar { padding-inline: var(--spacing-margin-desktop); } }
+
+.topbar__brand {
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.topbar__brand--mobile  { display: flex; }
+.topbar__brand--desktop { display: none; }
+@media (min-width: 768px) {
+  .topbar__brand--mobile  { display: none; }
+  .topbar__brand--desktop { display: flex; }
+}
+
+.topbar__title {
+  font-size: 2.4rem; font-weight: 600;
+  color: var(--color-primary);
+  letter-spacing: -0.01em;
+}
+
+.topbar__actions {
+  display: flex; align-items: center;
+  gap: var(--spacing-stack-sm);
+}
+
+.topbar__date {
+  display: none;
+  font-size: 1.4rem; color: var(--color-on-surface-variant);
+  margin-right: 1.6rem;
+}
+@media (min-width: 768px) { .topbar__date { display: block; } }
+
+.topbar__badge {
+  display: none;
+  align-items: center; gap: 0.8rem;
+  margin-right: 1.6rem;
+  background-color: var(--color-surface-container-high);
+  padding: 0.4rem 1.2rem;
+  border-radius: var(--radius-full);
+  font-size: 1.0rem; font-weight: 500;
+}
+@media (min-width: 768px) { .topbar__badge { display: flex; } }
+.topbar__badge-sep { color: var(--color-surface-variant); }
+
+.topbar__icon-btn {
+  color: var(--color-on-surface-variant);
+  padding: 0.8rem;
+  border-radius: var(--radius-full);
+  transition: var(--transition-normal);
+  position: relative;
+  display: flex; align-items: center;
+}
+.topbar__icon-btn:hover {
+  color: var(--color-primary);
+  background-color: var(--color-surface-container-high);
+}
+.topbar__icon-btn:active { transform: scale(0.95); }
+
+.topbar__notif-badge {
+  position: absolute; top: 0; right: 0;
+  min-width: 1.6rem; height: 1.6rem;
+  display: flex; align-items: center; justify-content: center;
+  background-color: var(--color-error);
+  color: #fff;
+  font-size: 0.9rem; font-weight: 700;
+  border-radius: var(--radius-full);
+  padding: 0 0.3rem;
+  border: 2px solid var(--color-surface);
+}
+
+.topbar__avatar-btn {
+  width: 4rem; height: 4rem;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  border: 2px solid var(--color-surface-variant);
+  transition: var(--transition-normal);
+  display: flex;
+}
+.topbar__avatar-btn:hover { border-color: var(--color-primary); }
+.topbar__avatar-btn:active { transform: scale(0.95); }
+.topbar__avatar-btn img { width: 100%; height: 100%; object-fit: cover; }
