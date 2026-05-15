@@ -5,6 +5,12 @@ import { ToastService } from '../services/toast.service';
 import { AiService } from '../services/ai.service';
 import { ThemeService } from '../services/theme.service';
 
+interface DeleteTarget {
+  id: string;
+  title: string;
+}
+
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -83,33 +89,13 @@ import { ThemeService } from '../services/theme.service';
         </div>
       </div>
 
-      <!-- Add Task Input -->
-      <section class="add-task-section">
-        <form class="add-task-form" (submit)="addTask($event)">
-          <div class="add-task-form__input-wrap">
-            <input #taskInput type="text" placeholder="¿Qué hay que hacer?"
-                   class="add-task-input" />
-          </div>
-          <div class="add-task-select-wrap">
-            <select #taskCategory class="add-task-select">
-              <option value="work" selected>Trabajo</option>
-              <option value="personal">Personal</option>
-              <option value="home">Hogar</option>
-              <option value="other">Otro</option>
-            </select>
-            <div class="add-task-select-arrow">
-              <span class="material-symbols-outlined">expand_more</span>
-            </div>
-          </div>
-          <button type="button" (click)="aiService.suggestTask()" title="Sugerir con IA"
-                  class="add-task-ai-btn">
-            <span class="material-symbols-outlined">auto_awesome</span>
-            Sugerir
-          </button>
-          <button type="submit" class="add-task-submit-btn" aria-label="Añadir tarea">
-            <span class="material-symbols-outlined">add</span>
-          </button>
-        </form>
+      <!-- AI Suggestion -->
+      <section class="add-task-section" style="justify-content: flex-end;">
+        <button type="button" (click)="aiService.suggestTask()" title="Sugerir con IA"
+                class="add-task-ai-btn" style="padding: 1.2rem 2.4rem;">
+          <span class="material-symbols-outlined">auto_awesome</span>
+          Sugerir Tarea con IA
+        </button>
       </section>
 
       <!-- Status Filters -->
@@ -161,35 +147,21 @@ import { ThemeService } from '../services/theme.service';
 
             <!-- Body -->
             <div class="task-body">
-              @if (editingTaskId() === task.id) {
-                <form (submit)="saveEdit($event, task.id)" class="task-edit-form">
-                  <input #editInput type="text" [value]="task.title"
-                         class="task-edit-input"
-                         (blur)="saveEditOnBlur(editInput.value, task.id)" autofocus>
-                  <button type="submit" class="task-edit-btn task-edit-btn--save">
-                    <span class="material-symbols-outlined">save</span>
-                  </button>
-                  <button type="button" (click)="cancelEdit()" class="task-edit-btn task-edit-btn--cancel">
-                    <span class="material-symbols-outlined">close</span>
-                  </button>
-                </form>
-              } @else {
-                <span [class]="'task-title' + (task.completed ? ' task-title--completed' : '')"
-                      (dblclick)="startEdit(task)">{{ task.title }}</span>
-                <div class="task-meta">
-                  @if (task.isPriority && !task.completed) {
-                    <span class="task-tag task-tag--priority">Prioridad alta</span>
-                  }
-                  @if (task.category) {
-                    <span [class]="'task-tag ' + getCategoryTag(task.category)">{{ task.categoryLabel }}</span>
-                  }
-                  @if (task.time && !task.completed) {
-                    <span class="task-time">
-                      <span class="material-symbols-outlined">schedule</span> {{ task.time }}
-                    </span>
-                  }
-                </div>
-              }
+              <span [class]="'task-title' + (task.completed ? ' task-title--completed' : '')"
+                    (dblclick)="startEdit(task)">{{ task.title }}</span>
+              <div class="task-meta">
+                @if (task.isPriority && !task.completed) {
+                  <span class="task-tag task-tag--priority">Prioridad alta</span>
+                }
+                @if (task.category) {
+                  <span [class]="'task-tag ' + getCategoryTag(task.category)">{{ task.categoryLabel }}</span>
+                }
+                @if (task.time && !task.completed) {
+                  <span class="task-time">
+                    <span class="material-symbols-outlined">schedule</span> {{ task.time }}
+                  </span>
+                }
+              </div>
             </div>
 
             <!-- Date -->
@@ -203,7 +175,7 @@ import { ThemeService } from '../services/theme.service';
                   <span class="material-symbols-outlined">edit</span>
                 </button>
               }
-              <button (click)="deleteTask(task.id)" aria-label="Eliminar tarea"
+              <button (click)="requestDelete(task)" aria-label="Eliminar tarea"
                       class="task-action-btn task-action-btn--delete">
                 <span class="material-symbols-outlined">delete</span>
               </button>
@@ -217,7 +189,130 @@ import { ThemeService } from '../services/theme.service';
           </div>
         }
       </section>
+
+      <!-- Modal Editar Tarea -->
+      @if (editModalOpen()) {
+        <div class="modal-backdrop" (click)="closeOnBackdrop($event)">
+          <div class="modal" role="dialog" aria-modal="true" aria-labelledby="edit-modal-title">
+            <div class="modal__header">
+              <div class="modal__header-icon">
+                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">edit_note</span>
+              </div>
+              <div>
+                <h2 class="modal__title" id="edit-modal-title">Editar Tarea</h2>
+                <p class="modal__subtitle">Modifica los detalles de la tarea</p>
+              </div>
+              <button class="modal__close-btn" (click)="cancelEdit()" aria-label="Cerrar modal">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <form class="modal__form" (submit)="saveEditSubmit($event)">
+              <div class="modal__field">
+                <label for="edit-title-input" class="modal__label">
+                  <span class="material-symbols-outlined">edit_note</span> Título <span class="modal__required">*</span>
+                </label>
+                <input id="edit-title-input" type="text" class="modal__input" placeholder="Título de la tarea"
+                       [(value)]="editTaskTitle" (input)="editTaskTitle = $any($event.target).value" autofocus />
+              </div>
+              <div class="modal__row">
+                <div class="modal__field">
+                  <label for="edit-category" class="modal__label">
+                    <span class="material-symbols-outlined">label</span> Categoría
+                  </label>
+                  <div class="modal__select-wrap">
+                    <select id="edit-category" class="modal__select" (change)="editTaskCategory = $any($event.target).value">
+                      <option value="work" [selected]="editTaskCategory === 'work'">💼 Trabajo</option>
+                      <option value="personal" [selected]="editTaskCategory === 'personal'">👤 Personal</option>
+                      <option value="home" [selected]="editTaskCategory === 'home'">🏠 Hogar</option>
+                      <option value="other" [selected]="editTaskCategory === 'other'">📌 Otro</option>
+                    </select>
+                    <span class="modal__select-arrow material-symbols-outlined">expand_more</span>
+                  </div>
+                </div>
+                <div class="modal__field">
+                  <label class="modal__label">
+                    <span class="material-symbols-outlined">priority_high</span> Prioridad
+                  </label>
+                  <label class="modal__toggle-label">
+                    <input type="checkbox" class="modal__toggle-input" [checked]="editTaskPriority"
+                           (change)="editTaskPriority = $any($event.target).checked" />
+                    <span class="modal__toggle-track">
+                      <span class="modal__toggle-thumb"></span>
+                    </span>
+                    <span class="modal__toggle-text">Alta prioridad</span>
+                  </label>
+                </div>
+              </div>
+              <div class="modal__field">
+                <label for="edit-time" class="modal__label">
+                  <span class="material-symbols-outlined">schedule</span> Hora (opcional)
+                </label>
+                <input id="edit-time" type="time" class="modal__input modal__input--time"
+                       [(value)]="editTaskTime" (input)="editTaskTime = $any($event.target).value" />
+              </div>
+              @if (showEditValidation()) {
+                <div class="modal__error">
+                  <span class="material-symbols-outlined">error</span> El título no puede estar vacío.
+                </div>
+              }
+              <div class="modal__actions">
+                <button type="button" class="modal__btn modal__btn--cancel" (click)="cancelEdit()">Cancelar</button>
+                <button type="submit" class="modal__btn modal__btn--submit">
+                  <span class="material-symbols-outlined">save</span> Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      }
+
     </main>
+
+    <!-- ─── Modal Confirmar Eliminación ─── -->
+    @if (deleteTarget()) {
+      <div class="modal-backdrop" (click)="closeDeleteOnBackdrop($event)">
+        <div class="modal modal--danger" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
+
+          <!-- Header -->
+          <div class="modal__header">
+            <div class="modal__header-icon modal__header-icon--danger">
+              <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">delete_forever</span>
+            </div>
+            <div>
+              <h2 class="modal__title" id="delete-modal-title">Eliminar tarea</h2>
+              <p class="modal__subtitle">Esta acción no se puede deshacer</p>
+            </div>
+            <button class="modal__close-btn" (click)="cancelDelete()" aria-label="Cerrar modal">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+
+          <!-- Body -->
+          <div class="modal__body">
+            <div class="delete-confirm__task-preview">
+              <span class="material-symbols-outlined delete-confirm__task-icon">task_alt</span>
+              <p class="delete-confirm__task-title">"{{ deleteTarget()!.title }}"</p>
+            </div>
+            <p class="delete-confirm__message">
+              ¿Estás seguro de que quieres eliminar esta tarea? Se borrará permanentemente y no podrás recuperarla.
+            </p>
+          </div>
+
+          <!-- Actions -->
+          <div class="modal__actions">
+            <button type="button" class="modal__btn modal__btn--cancel" (click)="cancelDelete()">
+              Cancelar
+            </button>
+            <button type="button" class="modal__btn modal__btn--danger" (click)="confirmDelete()">
+              <span class="material-symbols-outlined">delete</span>
+              Eliminar
+            </button>
+          </div>
+
+        </div>
+      </div>
+    }
+
   `
 })
 export class DashboardComponent {
@@ -231,6 +326,15 @@ export class DashboardComponent {
 
   todayDate     = new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date());
   editingTaskId = signal<string | null>(null);
+
+  editModalOpen = signal(false);
+  showEditValidation = signal(false);
+  deleteTarget = signal<DeleteTarget | null>(null);
+  
+  editTaskTitle = '';
+  editTaskCategory = 'work';
+  editTaskPriority = false;
+  editTaskTime = '';
 
   get avatarUrl(): string {
     if (isPlatformBrowser(this.platformId)) {
@@ -265,42 +369,67 @@ export class DashboardComponent {
     }
   }
 
-  deleteTask(id: string) {
-    const task = this.taskService.tasks().find(t => t.id === id);
-    this.taskService.deleteTask(id);
-    this.toastService.show(`Tarea eliminada: ${task?.title}`, 'error');
+  requestDelete(task: Task) {
+    this.deleteTarget.set({ id: task.id, title: task.title });
   }
 
-  addTask(event: Event) {
-    event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    const input = form.querySelector('input') as HTMLInputElement;
-    const select = form.querySelector('select') as HTMLSelectElement;
-    if (input.value.trim()) {
-      this.taskService.addTask(input.value.trim(), select ? select.value : 'other');
-      this.toastService.show(`Tarea creada: ${input.value.trim()}`, 'success');
-      input.value = '';
-    } else {
-      this.toastService.show('El título de la tarea no puede estar vacío', 'error');
+  cancelDelete() {
+    this.deleteTarget.set(null);
+  }
+
+  closeDeleteOnBackdrop(event: MouseEvent) {
+    if ((event.target as HTMLElement).classList.contains('modal-backdrop')) {
+      this.cancelDelete();
     }
   }
 
-  startEdit(task: Task)    { this.editingTaskId.set(task.id); }
-  cancelEdit()             { this.editingTaskId.set(null); }
-
-  saveEdit(event: Event, id: string) {
-    event.preventDefault();
-    const input = (event.target as HTMLFormElement).querySelector('input') as HTMLInputElement;
-    this.saveEditOnBlur(input.value, id);
+  confirmDelete() {
+    const target = this.deleteTarget();
+    if (!target) return;
+    this.taskService.deleteTask(target.id);
+    this.toastService.show(`Tarea eliminada: ${target.title}`, 'error');
+    this.deleteTarget.set(null);
   }
 
-  saveEditOnBlur(value: string, id: string) {
-    if (value.trim()) {
-      this.taskService.editTask(id, value.trim());
-      this.toastService.show('Tarea actualizada correctamente', 'success');
-    } else {
-      this.toastService.show('El título no puede estar vacío', 'error');
-    }
+  startEdit(task: Task) {
+    this.editingTaskId.set(task.id);
+    this.editTaskTitle = task.title;
+    this.editTaskCategory = task.category;
+    this.editTaskPriority = task.isPriority;
+    this.editTaskTime = task.time || '';
+    this.showEditValidation.set(false);
+    this.editModalOpen.set(true);
+  }
+
+  cancelEdit() {
+    this.editModalOpen.set(false);
     this.editingTaskId.set(null);
+  }
+
+  closeOnBackdrop(event: MouseEvent) {
+    if ((event.target as HTMLElement).classList.contains('modal-backdrop')) {
+      this.cancelEdit();
+    }
+  }
+
+  saveEditSubmit(event: Event) {
+    event.preventDefault();
+    const title = this.editTaskTitle.trim();
+    if (!title) {
+      this.showEditValidation.set(true);
+      return;
+    }
+    
+    const id = this.editingTaskId();
+    if (id) {
+      this.taskService.editTask(id, {
+        title,
+        category: this.editTaskCategory,
+        isPriority: this.editTaskPriority,
+        time: this.editTaskTime
+      });
+      this.toastService.show('Tarea actualizada correctamente', 'success');
+    }
+    this.cancelEdit();
   }
 }

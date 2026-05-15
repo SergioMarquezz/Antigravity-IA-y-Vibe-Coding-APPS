@@ -381,3 +381,133 @@
   font-size: 2.0rem; font-weight: 600; color: var(--color-on-surface); margin-bottom: 0.8rem;
 }
 .empty-state__text { font-size: 1.6rem; color: var(--color-on-surface-variant); }
+
+/* ─── Modal Backdrop ─── */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--spacing-margin-mobile);
+  animation: fadeIn 0.2s ease forwards;
+}
+
+/* ─── Modal Base ─── */
+.modal {
+  background-color: var(--color-surface-container-lowest);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-level-2);
+  width: 100%; max-width: 48rem;
+  animation: scaleIn 0.2s ease forwards;
+  overflow: hidden;
+}
+
+.modal__header {
+  display: flex; align-items: center; gap: 1.6rem;
+  padding: 2.4rem 2.4rem 0;
+}
+
+.modal__header-icon {
+  width: 4.8rem; height: 4.8rem; flex-shrink: 0;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary-container);
+  display: flex; align-items: center; justify-content: center;
+}
+.modal__header-icon .material-symbols-outlined { color: var(--color-on-primary-container); }
+
+.modal__header-icon--danger {
+  background-color: var(--color-error-container);
+}
+.modal__header-icon--danger .material-symbols-outlined { color: var(--color-on-error-container); }
+
+.modal__title {
+  font-size: 2.0rem; font-weight: 600;
+  color: var(--color-on-surface);
+  line-height: 2.6rem;
+}
+.modal__subtitle {
+  font-size: 1.4rem; color: var(--color-on-surface-variant);
+  margin-top: 0.2rem;
+}
+
+.modal__close-btn {
+  margin-left: auto; flex-shrink: 0;
+  color: var(--color-on-surface-variant);
+  padding: 0.8rem; border-radius: var(--radius-full);
+  display: flex; align-items: center;
+  transition: var(--transition-normal);
+}
+.modal__close-btn:hover {
+  color: var(--color-on-surface);
+  background-color: var(--color-surface-container-high);
+}
+
+/* ─── Modal Body ─── */
+.modal__body {
+  padding: 2.4rem;
+  display: flex; flex-direction: column; gap: 1.6rem;
+}
+
+/* ─── Delete Confirm ─── */
+.delete-confirm__task-preview {
+  display: flex; align-items: center; gap: 1.2rem;
+  background-color: var(--color-surface-container);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem;
+}
+
+.delete-confirm__task-icon {
+  color: var(--color-on-surface-variant);
+  font-size: 2.4rem;
+  flex-shrink: 0;
+}
+
+.delete-confirm__task-title {
+  font-size: 1.6rem; font-weight: 500;
+  color: var(--color-on-surface);
+  line-height: 2.4rem;
+  word-break: break-word;
+}
+
+.delete-confirm__message {
+  font-size: 1.4rem;
+  color: var(--color-on-surface-variant);
+  line-height: 2.2rem;
+}
+
+/* ─── Modal Actions ─── */
+.modal__actions {
+  display: flex; justify-content: flex-end; gap: 1.2rem;
+  padding: 0 2.4rem 2.4rem;
+}
+
+.modal__btn {
+  display: flex; align-items: center; gap: 0.8rem;
+  padding: 1.2rem 2.4rem;
+  border-radius: var(--radius-xl);
+  font-size: 1.4rem; font-weight: 600;
+  transition: var(--transition-normal);
+}
+
+.modal__btn--cancel {
+  background-color: var(--color-surface-container-high);
+  color: var(--color-on-surface-variant);
+}
+.modal__btn--cancel:hover {
+  background-color: var(--color-surface-container-highest);
+  color: var(--color-on-surface);
+}
+
+.modal__btn--danger {
+  background-color: var(--color-error);
+  color: var(--color-on-error);
+  box-shadow: var(--shadow-level-1);
+}
+.modal__btn--danger:hover {
+  filter: brightness(1.1);
+  box-shadow: var(--shadow-level-2);
+}
+.modal__btn--danger:active { transform: scale(0.97); }
+.modal__btn--danger .material-symbols-outlined { font-size: 1.8rem; }

@@ -91,8 +91,18 @@ export class TaskService {
     this.tasks.update(tasks => [newTask, ...tasks]);
   }
 
-  editTask(id: string, title: string) {
-    this.tasks.update(tasks => tasks.map(t => t.id === id ? { ...t, title } : t));
+  editTask(id: string, updates: Partial<Task>) {
+    const map: Record<string, string> = { work: 'Trabajo', personal: 'Personal', home: 'Hogar', other: 'Otro' };
+    this.tasks.update(tasks => tasks.map(t => {
+      if (t.id === id) {
+        const updatedTask = { ...t, ...updates };
+        if (updates.category) {
+          updatedTask.categoryLabel = map[updates.category] || 'Otro';
+        }
+        return updatedTask;
+      }
+      return t;
+    }));
   }
 
   toggleComplete(id: string) {
