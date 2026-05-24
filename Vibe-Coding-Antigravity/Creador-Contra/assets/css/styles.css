@@ -1,0 +1,597 @@
+/* ============================================================
+   Generador de Contraseñas Seguras – Estilos Principales
+   Paleta fría/azul · Diseño minimalista moderno
+   Base font-size: 16px · Unidades en rem
+   ============================================================ */
+
+/* ── Variables de diseño ─────────────────────────────────── */
+:root {
+  --color-bg-start:       #050d1a;
+  --color-bg-end:         #0a1e38;
+  --color-surface:        rgba(10, 30, 60, 0.55);
+  --color-surface-hover:  rgba(15, 40, 80, 0.70);
+  --color-border:         rgba(56, 130, 220, 0.22);
+  --color-border-focus:   rgba(99, 179, 237, 0.60);
+
+  --color-primary:        #3b82f6;
+  --color-primary-hover:  #2563eb;
+  --color-primary-glow:   rgba(59, 130, 246, 0.35);
+
+  --color-accent:         #60a5fa;
+  --color-text:           #e2e8f0;
+  --color-text-muted:     #94a3b8;
+  --color-text-dim:       #64748b;
+
+  --color-success:        #22d3a0;
+  --color-warning:        #fbbf24;
+  --color-danger:         #f87171;
+
+  --radius-sm:            0.5rem;
+  --radius-md:            0.875rem;
+  --radius-lg:            1.25rem;
+  --radius-xl:            1.75rem;
+
+  --shadow-card:
+    0 0.5rem 2rem rgba(0, 0, 0, 0.45),
+    0 0 0 1px var(--color-border);
+
+  --shadow-glow:
+    0 0 1.5rem var(--color-primary-glow);
+
+  --transition-fast:      150ms ease;
+  --transition-med:       280ms ease;
+}
+
+/* ── Reset / Base ────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, var(--color-bg-start) 0%, var(--color-bg-end) 100%);
+  min-height: 100vh;
+  color: var(--color-text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Partículas de fondo decorativas */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 80% 80%, rgba(96, 165, 250, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Tipografía ──────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+/* ── Layout principal ────────────────────────────────────── */
+.app-wrapper {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+.app-header {
+  background: rgba(5, 13, 26, 0.80);
+  backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem 0;
+}
+
+.app-header .brand-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: linear-gradient(135deg, var(--color-primary), #818cf8);
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: var(--shadow-glow);
+  flex-shrink: 0;
+}
+
+.app-header .brand-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #60a5fa, #a5b4fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.app-header .brand-subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+/* ── Card de cristal ─────────────────────────────────────── */
+.glass-card {
+  background: var(--color-surface);
+  backdrop-filter: blur(1.5rem);
+  -webkit-backdrop-filter: blur(1.5rem);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--transition-med);
+}
+
+.glass-card:hover {
+  box-shadow:
+    var(--shadow-card),
+    0 0 2rem rgba(59, 130, 246, 0.10);
+}
+
+.card-section-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 0.875rem;
+}
+
+/* ── Campo de contraseña ─────────────────────────────────── */
+.password-display-wrapper {
+  position: relative;
+}
+
+#campoContrasena {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  background: rgba(5, 13, 26, 0.65);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-accent);
+  padding: 1rem 7rem 1rem 1.25rem;
+  width: 100%;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+  word-break: break-all;
+  min-height: 3.5rem;
+  display: flex;
+  align-items: center;
+  cursor: default;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+#campoContrasena:focus-within,
+#campoContrasena.activo {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.18);
+  outline: none;
+}
+
+.password-text {
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+/* Texto placeholder */
+.placeholder-text {
+  color: var(--color-text-dim);
+  font-style: italic;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0;
+}
+
+/* Botones sobre el campo */
+.password-actions {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 0.25rem;
+}
+
+.btn-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: rgba(15, 30, 60, 0.60);
+  color: var(--color-text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.btn-icon:hover {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+  transform: scale(1.08);
+}
+
+.btn-icon:active {
+  transform: scale(0.96);
+}
+
+.btn-icon.btn-icon-success {
+  background: var(--color-success);
+  color: #fff;
+  border-color: var(--color-success);
+}
+
+/* ── Barra de fortaleza ──────────────────────────────────── */
+.strength-wrapper {
+  margin-top: 0.75rem;
+}
+
+.strength-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.strength-label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.strength-value {
+  font-size: 0.75rem;
+  font-weight: 700;
+  transition: color var(--transition-med);
+}
+
+.strength-track {
+  height: 0.375rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  overflow: hidden;
+  display: flex;
+  gap: 0.25rem;
+}
+
+.strength-segment {
+  flex: 1;
+  height: 100%;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.08);
+  transition: background var(--transition-med);
+}
+
+/* Estados de fortaleza */
+.strength-segment.filled-muy-debil  { background: var(--color-danger); }
+.strength-segment.filled-debil      { background: #fb923c; }
+.strength-segment.filled-media      { background: var(--color-warning); }
+.strength-segment.filled-fuerte     { background: #34d399; }
+.strength-segment.filled-muy-fuerte { background: var(--color-success); }
+
+.strength-muy-debil  { color: var(--color-danger); }
+.strength-debil      { color: #fb923c; }
+.strength-media      { color: var(--color-warning); }
+.strength-fuerte     { color: #34d399; }
+.strength-muy-fuerte { color: var(--color-success); }
+
+/* ── Slider de longitud ──────────────────────────────────── */
+.length-display {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-accent);
+  min-width: 3.5rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.length-label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* Slider personalizado */
+.custom-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 0.375rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  outline: none;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.custom-range::-webkit-slider-runnable-track {
+  height: 0.375rem;
+  border-radius: 9999px;
+}
+
+.custom-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0.5rem var(--color-primary-glow);
+  cursor: grab;
+  margin-top: -0.44rem;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.custom-range::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.2);
+  box-shadow: 0 0 1rem var(--color-primary-glow);
+}
+
+.custom-range::-moz-range-thumb {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0.5rem var(--color-primary-glow);
+  cursor: grab;
+}
+
+/* ── Opciones (checkboxes) ───────────────────────────────── */
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+  user-select: none;
+}
+
+.option-item:hover {
+  background: var(--color-surface-hover);
+  border-color: rgba(99, 179, 237, 0.35);
+}
+
+.option-item input[type="checkbox"] {
+  display: none;
+}
+
+.option-toggle {
+  width: 2.75rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  position: relative;
+  flex-shrink: 0;
+  transition: background var(--transition-med), border-color var(--transition-med);
+}
+
+.option-toggle::after {
+  content: '';
+  position: absolute;
+  top: 0.15rem;
+  left: 0.15rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transition: transform var(--transition-med), background var(--transition-med);
+}
+
+.option-item:has(input:checked) .option-toggle {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.option-item:has(input:checked) .option-toggle::after {
+  transform: translateX(1.25rem);
+  background: #fff;
+}
+
+.option-icon {
+  font-size: 1.1rem;
+  width: 1.5rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.option-info {
+  flex: 1;
+}
+
+.option-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.option-desc {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  margin-top: 0.1rem;
+}
+
+/* ── Botón principal Generar ─────────────────────────────── */
+.btn-generar {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #6366f1 100%);
+  border: none;
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.875rem 2rem;
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    filter var(--transition-fast);
+  box-shadow: 0 0.25rem 1.5rem var(--color-primary-glow);
+}
+
+.btn-generar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.btn-generar:hover {
+  transform: translateY(-0.125rem);
+  box-shadow: 0 0.5rem 2rem var(--color-primary-glow);
+  filter: brightness(1.1);
+}
+
+.btn-generar:hover::before { opacity: 1; }
+
+.btn-generar:active {
+  transform: translateY(0.0625rem);
+  box-shadow: 0 0.125rem 0.75rem var(--color-primary-glow);
+}
+
+.btn-generar .spinner-border {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.125rem;
+}
+
+/* ── Toast de notificación ───────────────────────────────── */
+.toast-custom {
+  background: rgba(10, 30, 60, 0.92);
+  backdrop-filter: blur(1rem);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+}
+
+.toast-custom .toast-header {
+  background: transparent;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.toast-custom .btn-close {
+  filter: invert(1) brightness(0.7);
+}
+
+/* ── Alerta de error ─────────────────────────────────────── */
+.alert-custom {
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  border-radius: var(--radius-md);
+  color: var(--color-danger);
+  font-size: 0.875rem;
+  padding: 0.75rem 1rem;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+.app-footer {
+  margin-top: auto;
+  padding: 1.5rem 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--color-text-dim);
+  border-top: 1px solid var(--color-border);
+}
+
+.app-footer a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.app-footer a:hover {
+  color: var(--color-primary);
+}
+
+/* ── Separador decorativo ────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-border),
+    var(--color-primary-glow),
+    var(--color-border),
+    transparent
+  );
+  margin: 1.5rem 0;
+}
+
+/* ── Animaciones ─────────────────────────────────────────── */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-1rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(1rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 1.5rem var(--color-primary-glow); }
+  50%       { box-shadow: 0 0 2.5rem rgba(59, 130, 246, 0.55); }
+}
+
+.app-header { animation: fadeInDown 0.5s ease both; }
+.glass-card  { animation: fadeInUp  0.5s ease both; }
+.glass-card:nth-child(2) { animation-delay: 0.1s; }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 36rem) {
+  .length-display {
+    font-size: 1.5rem;
+  }
+
+  #campoContrasena {
+    font-size: 0.9rem;
+    padding-right: 5.5rem;
+  }
+}

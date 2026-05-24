@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Generador de contraseñas seguras y aleatorias. Personaliza longitud, tipos de caracteres y obtén contraseñas fuertes al instante." />
+  <meta name="theme-color" content="#050d1a" />
+
+  <title>Generador de Contraseñas Seguras</title>
+
+  <!-- Bootstrap 5.2.3 CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+    crossorigin="anonymous"
+  />
+
+  <!-- Bootstrap Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+  />
+
+  <!-- Google Fonts: Inter + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Estilos propios -->
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+
+<body>
+  <div class="app-wrapper">
+
+    <!-- ══════════════════════════════════════════════════════
+         ENCABEZADO
+         ══════════════════════════════════════════════════════ -->
+    <header class="app-header" role="banner">
+      <div class="container">
+        <div class="d-flex align-items-center gap-3">
+          <div class="brand-icon" aria-hidden="true">🔐</div>
+          <div>
+            <div class="brand-title">SecurePass</div>
+            <div class="brand-subtitle">GENERADOR DE CONTRASEÑAS</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ══════════════════════════════════════════════════════
+         CONTENIDO PRINCIPAL
+         ══════════════════════════════════════════════════════ -->
+    <main class="container py-5" id="contenidoPrincipal">
+      <div class="row justify-content-center g-4">
+
+        <!-- ────────────────────────────────────────────────
+             COLUMNA PRINCIPAL: Contraseña + Opciones
+             ──────────────────────────────────────────────── -->
+        <div class="col-12 col-lg-7">
+
+          <!-- CARD: Contraseña Generada -->
+          <section class="glass-card p-4 mb-4" aria-label="Contraseña generada">
+            <p class="card-section-title">Contraseña generada</p>
+
+            <!-- Campo visual de contraseña -->
+            <div class="password-display-wrapper mb-1">
+              <div
+                id="campoContrasena"
+                class="password-field"
+                role="textbox"
+                aria-readonly="true"
+                aria-label="Campo de contraseña generada"
+                tabindex="0"
+              >
+                <span id="passwordText" class="password-text placeholder-text"></span>
+              </div>
+
+              <!-- Botones sobre el campo -->
+              <div class="password-actions" role="group" aria-label="Acciones sobre la contraseña">
+                <button
+                  id="btnVerOcultar"
+                  class="btn-icon"
+                  title="Mostrar contraseña"
+                  aria-label="Mostrar u ocultar contraseña"
+                  type="button"
+                >
+                  <i class="bi bi-eye" aria-hidden="true"></i>
+                </button>
+                <button
+                  id="btnCopiar"
+                  class="btn-icon"
+                  title="Copiar contraseña"
+                  aria-label="Copiar contraseña al portapapeles"
+                  type="button"
+                >
+                  <i class="bi bi-clipboard" aria-hidden="true"></i>
+                </button>
+                <button
+                  id="btnDescargar"
+                  class="btn-icon"
+                  title="Descargar contraseña"
+                  aria-label="Descargar contraseña como archivo de texto"
+                  type="button"
+                >
+                  <i class="bi bi-download" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Barra de fortaleza -->
+            <div class="strength-wrapper" role="region" aria-label="Fortaleza de la contraseña">
+              <div class="strength-label-row">
+                <span class="strength-label">Fortaleza</span>
+                <span
+                  id="strengthValue"
+                  class="strength-value fw-bold"
+                  aria-live="polite"
+                >—</span>
+              </div>
+              <div
+                class="strength-track"
+                role="meter"
+                aria-valuemin="0"
+                aria-valuemax="5"
+                aria-label="Nivel de fortaleza"
+              >
+                <div class="strength-segment" data-index="0"></div>
+                <div class="strength-segment" data-index="1"></div>
+                <div class="strength-segment" data-index="2"></div>
+                <div class="strength-segment" data-index="3"></div>
+                <div class="strength-segment" data-index="4"></div>
+              </div>
+            </div>
+
+            <!-- Alerta de error (Bootstrap) -->
+            <div
+              id="alertaError"
+              class="alert-custom mt-3 d-none"
+              role="alert"
+              aria-live="assertive"
+            >
+              <i class="bi bi-exclamation-triangle-fill me-2" aria-hidden="true"></i>
+              <span id="alertaMensaje"></span>
+            </div>
+          </section>
+
+          <!-- CARD: Longitud -->
+          <section class="glass-card p-4 mb-4" aria-label="Longitud de la contraseña">
+            <p class="card-section-title">Longitud</p>
+
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <div>
+                <div id="displayLongitud" class="length-display" aria-live="polite">16</div>
+                <div class="length-label">caracteres</div>
+              </div>
+              <div class="flex-grow-1">
+                <label for="sliderLongitud" class="visually-hidden">
+                  Longitud de la contraseña
+                </label>
+                <input
+                  type="range"
+                  id="sliderLongitud"
+                  class="custom-range w-100"
+                  min="6"
+                  max="64"
+                  value="16"
+                  step="1"
+                  aria-valuenow="16"
+                  aria-valuemin="6"
+                  aria-valuemax="64"
+                  aria-label="Longitud de la contraseña"
+                />
+                <div class="d-flex justify-content-between mt-1">
+                  <small class="text-muted" style="font-size:0.7rem;">6</small>
+                  <small class="text-muted" style="font-size:0.7rem;">64</small>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Botón Generar -->
+          <button
+            id="btnGenerar"
+            class="btn-generar"
+            type="button"
+            aria-label="Generar contraseña segura"
+          >
+            <span class="spinner-border spinner-border-sm me-2 d-none" id="btnGenerarSpinner" role="status" aria-hidden="true"></span>
+            <i class="bi bi-shield-lock me-2" aria-hidden="true"></i>
+            <span id="btnGenerarText">Generar contraseña</span>
+          </button>
+
+        </div>
+
+        <!-- ────────────────────────────────────────────────
+             COLUMNA LATERAL: Opciones de caracteres
+             ──────────────────────────────────────────────── -->
+        <div class="col-12 col-lg-5">
+          <section class="glass-card p-4 h-100" aria-label="Opciones de tipos de caracteres">
+            <p class="card-section-title">Tipos de caracteres</p>
+
+            <div class="d-flex flex-column gap-3">
+
+              <!-- Mayúsculas -->
+              <label class="option-item" for="chkMayusculas">
+                <input
+                  type="checkbox"
+                  id="chkMayusculas"
+                  name="chkMayusculas"
+                  checked
+                  aria-describedby="descMayusculas"
+                />
+                <div class="option-toggle" aria-hidden="true"></div>
+                <div class="option-icon" aria-hidden="true">🔠</div>
+                <div class="option-info">
+                  <div class="option-name">Mayúsculas</div>
+                  <div class="option-desc" id="descMayusculas">A – Z (26 caracteres)</div>
+                </div>
+              </label>
+
+              <!-- Minúsculas -->
+              <label class="option-item" for="chkMinusculas">
+                <input
+                  type="checkbox"
+                  id="chkMinusculas"
+                  name="chkMinusculas"
+                  checked
+                  aria-describedby="descMinusculas"
+                />
+                <div class="option-toggle" aria-hidden="true"></div>
+                <div class="option-icon" aria-hidden="true">🔡</div>
+                <div class="option-info">
+                  <div class="option-name">Minúsculas</div>
+                  <div class="option-desc" id="descMinusculas">a – z (26 caracteres)</div>
+                </div>
+              </label>
+
+              <!-- Números -->
+              <label class="option-item" for="chkNumeros">
+                <input
+                  type="checkbox"
+                  id="chkNumeros"
+                  name="chkNumeros"
+                  checked
+                  aria-describedby="descNumeros"
+                />
+                <div class="option-toggle" aria-hidden="true"></div>
+                <div class="option-icon" aria-hidden="true">🔢</div>
+                <div class="option-info">
+                  <div class="option-name">Números</div>
+                  <div class="option-desc" id="descNumeros">0 – 9 (10 caracteres)</div>
+                </div>
+              </label>
+
+              <!-- Caracteres especiales -->
+              <label class="option-item" for="chkEspeciales">
+                <input
+                  type="checkbox"
+                  id="chkEspeciales"
+                  name="chkEspeciales"
+                  aria-describedby="descEspeciales"
+                />
+                <div class="option-toggle" aria-hidden="true"></div>
+                <div class="option-icon" aria-hidden="true">✳️</div>
+                <div class="option-info">
+                  <div class="option-name">Caracteres especiales</div>
+                  <div class="option-desc" id="descEspeciales">!@#$%^&*()-_=+[]{}&lt;&gt;?/|~</div>
+                </div>
+              </label>
+
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Nota informativa -->
+            <div class="d-flex align-items-start gap-2" style="font-size:0.75rem; color: var(--color-text-muted);">
+              <i class="bi bi-info-circle-fill text-primary mt-1" aria-hidden="true" style="flex-shrink:0;"></i>
+              <p class="mb-0">
+                Se garantiza al menos un carácter de cada tipo activado. Las contraseñas se generan con
+                <strong style="color: var(--color-accent);">criptografía segura</strong> usando la API
+                <code>crypto.getRandomValues()</code>.
+              </p>
+            </div>
+
+          </section>
+        </div>
+
+      </div><!-- /row -->
+    </main>
+
+    <!-- ══════════════════════════════════════════════════════
+         PIE DE PÁGINA
+         ══════════════════════════════════════════════════════ -->
+    <footer class="app-footer" role="contentinfo">
+      <div class="container">
+        <p class="mb-0">
+          Generado localmente en tu dispositivo · Sin envío de datos a servidores ·
+          <a href="https://developer.mozilla.org/es/docs/Web/API/Crypto/getRandomValues" target="_blank" rel="noopener noreferrer">
+            ¿Cómo funciona?
+          </a>
+        </p>
+      </div>
+    </footer>
+
+  </div><!-- /app-wrapper -->
+
+  <!-- ══════════════════════════════════════════════════════
+       TOAST DE NOTIFICACIÓN (Bootstrap)
+       ══════════════════════════════════════════════════════ -->
+  <div
+    class="toast-container position-fixed bottom-0 end-0 p-3"
+    style="z-index:1100;"
+    aria-live="polite"
+    aria-atomic="true"
+  >
+    <div
+      id="toastNotificacion"
+      class="toast toast-custom"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <div class="toast-header">
+        <span class="me-2" aria-hidden="true">🔐</span>
+        <strong class="me-auto">SecurePass</strong>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="toast"
+          aria-label="Cerrar notificación"
+        ></button>
+      </div>
+      <div class="toast-body" id="toastMensaje"></div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5.2.3 Bundle JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- Lógica de la aplicación -->
+  <script src="assets/js/app.js"></script>
+
+</body>
+</html>
