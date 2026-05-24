@@ -1,0 +1,191 @@
+/* Root Variables for Cold / Blue Theme */
+:root {
+    --bg-dark: #0b1120;
+    --bg-card: #151e32;
+    --bg-darker: #070b15;
+    
+    --primary-color: #3b82f6;
+    --primary-hover: #2563eb;
+    --primary-glow: rgba(59, 130, 246, 0.5);
+    
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    
+    --border-color: #1e293b;
+    
+    --strength-weak: #ef4444;
+    --strength-medium: #eab308;
+    --strength-strong: #22c55e;
+    --strength-very-strong: #10b981;
+}
+
+/* Base Settings */
+html {
+    font-size: 10px; /* 1rem = 10px */
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--bg-dark) !important;
+    color: var(--text-main) !important;
+    font-size: 1.6rem; /* 16px default */
+}
+
+/* Custom Overrides for Utilities */
+.bg-dark { background-color: var(--bg-dark) !important; }
+.bg-darker { background-color: var(--bg-darker) !important; }
+.text-primary-custom { color: var(--primary-color) !important; }
+.text-muted-custom { color: var(--text-muted) !important; }
+
+/* Main Card Styling */
+.password-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.4) !important;
+    max-width: 60rem;
+    width: 100%;
+}
+
+/* Password Display Area */
+.password-input {
+    font-size: 2.4rem !important;
+    letter-spacing: 0.1rem;
+    font-family: monospace;
+    padding: 1.5rem 2rem !important;
+    border-radius: 0.8rem 0 0 0.8rem !important;
+}
+
+.password-input:focus {
+    box-shadow: none !important;
+    border-color: transparent !important;
+}
+
+/* Buttons */
+.btn-primary-custom {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border: none !important;
+    transition: all 0.3s ease;
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--primary-hover) !important;
+    box-shadow: 0 0 1.5rem var(--primary-glow);
+}
+
+.btn-outline-primary-custom {
+    background-color: var(--bg-darker) !important;
+    color: var(--text-muted) !important;
+    border: none !important;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary-custom:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Switch Styling */
+.custom-switch .form-check-input {
+    width: 4rem;
+    height: 2rem;
+    background-color: var(--bg-darker);
+    border-color: var(--border-color);
+    cursor: pointer;
+}
+
+.custom-switch .form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 1rem var(--primary-glow);
+}
+
+.custom-switch .form-check-input:focus {
+    box-shadow: none;
+    border-color: var(--primary-color);
+}
+
+.custom-switch .form-check-label {
+    padding-left: 1rem;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.3s ease;
+}
+
+.custom-switch .form-check-input:checked ~ .form-check-label {
+    color: var(--text-main);
+}
+
+.custom-switch .form-check-input:not(:checked) ~ .form-check-label {
+    color: var(--text-muted);
+}
+
+/* Range Slider Styling */
+.custom-range {
+    height: 0.8rem;
+    background: var(--bg-darker);
+    border-radius: 1rem;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    box-shadow: 0 0 1rem var(--primary-glow);
+    transition: transform 0.2s ease;
+}
+
+.custom-range::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+
+/* Generate Button */
+.generate-btn {
+    border-radius: 0.8rem;
+    letter-spacing: 0.1rem;
+    margin-top: 2rem;
+}
+
+/* Strength Meter */
+.strength-meter .progress {
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.progress-bar {
+    transition: width 0.4s ease, background-color 0.4s ease;
+}
+
+.strength-text-default { color: var(--text-muted); }
+.strength-text-weak { color: var(--strength-weak); }
+.strength-text-medium { color: var(--strength-medium); }
+.strength-text-strong { color: var(--strength-strong); }
+.strength-text-very-strong { color: var(--strength-very-strong); }
+
+/* Notifications */
+.custom-toast {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1.2rem 2rem;
+    border-radius: 0.6rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-2rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
